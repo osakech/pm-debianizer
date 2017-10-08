@@ -2,7 +2,7 @@ FROM ubuntu
 
 WORKDIR /workdir
 
-RUN apt-get update && apt-get -y install devscripts dh-make-perl
+RUN apt-get update && apt-get -y install dh-make-perl
 
 COPY buildscript.sh .
 
