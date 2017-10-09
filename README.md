@@ -17,7 +17,7 @@ Creates a Debian package for Ubuntu from a CPAN module.Support for more  Debian 
 ## USAGE:
 
 ```bash
-./pmd.pl -m *<CPAN module name>*
+./pmd.pl -m CPAN::Module
 ```
 
 For example:
