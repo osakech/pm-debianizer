@@ -27,7 +27,7 @@ Note: previous containers are destroyed by default
 ## USAGE:
 
 ```bash
-./pmd.pl -m *<CPAN module name>*
+./pmd.pl -m CPAN::Module
 ```
 
 For example:
