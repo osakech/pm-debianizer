@@ -10,9 +10,11 @@ use FindBin;
 use lib "$FindBin::Bin/lib";
 
 use Pmdeb::BashScriptGenerator;
+use Pmdeb::Util;
 
-our ($opt_m);
-getopts('m:');
+
+our ($opt_m, $opt_x);
+getopts('xm:,');
 
 my $script = Pmdeb::BashScriptGenerator::getScriptContents($opt_m);
 
@@ -22,19 +24,22 @@ close $fh;
 
 my $containerName = "pmdeb-cont";
 
-my $bCont = "docker build . -t $containerName -f Dockerfile";
+Pmdeb::Util::destroyAllPreviousContainers($containerName);
+Pmdeb::Util::destroyAllPreviousImages($containerName) if($opt_x);
+
+my $bCont = "docker build -t $containerName\_image -f Dockerfile .";
 say "command -> ".$bCont;
 system($bCont);
-say "finished building container";
+say "finished building image";
 
-system ("docker stop $containerName");
-system ("docker rm $containerName");
 
-my $cCont = "docker create --name $containerName $containerName .";
+my $cCont = "docker create --name $containerName $containerName\_image .";
 say "command -> ".$cCont;
 system($cCont);
 say "created docker container";
 
+
+Pmdeb::Util::deletePreviousDebs($opt_m);
 my $copCont = "docker cp $containerName:/workdir ./$opt_m";
 say "command -> ".$copCont;
 system($copCont);

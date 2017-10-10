@@ -10,7 +10,7 @@ sub getScriptContents {
   return qq{
   #!/usr/bin/sh
   git config --global user.email osakech\@gmail.com
-  DEB_BUILD_OPTIONS=nocheck cpan2deb $pkgname  
+  DEB_BUILD_OPTIONS=nocheck cpan2deb $pkgname --core-ok
   };
 }
 

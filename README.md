@@ -1,7 +1,7 @@
 # pm-debianizer
 **This tool is still in early alpha**
 
-Creates a Debian package for Ubuntu from a CPAN module.Support for more  Debian platforms coming soon.
+Creates a Debian package for Ubuntu from a CPAN module. Support for more  Debian platforms coming soon.
 
 ## Prerequisites
 * Docker
@@ -12,6 +12,16 @@ Creates a Debian package for Ubuntu from a CPAN module.Support for more  Debian 
 ## CAUTION!
 * This tool is not user friendly at the moment and full of bugs
 * Only Pure Perl modules will probably work (atm I am just executing "cpan2deb <modulename>" in the docker container)
+
+## OPTIONS:
+
+### -m
+The name of perl module you want to export
+
+### -x
+Destroy all previous containers and images
+
+Note: previous containers are destroyed by default
 
 
 ## USAGE:
@@ -32,3 +42,6 @@ libwww-perl-perl
 libwww-perl-perl_6.27-1_all.deb
 libwww-perl-perl_6.27.orig.tar.gz
 ```
+
+## Thanks
+Slaven (eserte) for the idea!
