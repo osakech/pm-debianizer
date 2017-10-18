@@ -7,22 +7,22 @@ use File::Path 'rmtree';
 
 sub deletePreviousDebs {
   # i don't feel good about this function ...
-  my ($opt_m) = @_;
-  die if (!$opt_m or $opt_m eq ".");
-  rmtree($opt_m);
+  my ($moduleName) = @_;
+  die if (!$moduleName or $moduleName eq ".");
+  rmtree($moduleName);
 }
 
 sub destroyAllPreviousImages {
-  my ($cname) = @_;
+  my ($imageName) = @_;
   warn "Destroy all previous images!";
-  system("docker image rm $cname\_image");
+  system("docker image rm $imageName");
 }
 
 sub destroyAllPreviousContainers {
-  my ($cname) = @_;
+  my ($containerName) = @_;
   say "Destroy all previuos containers!";
-  system("docker stop $cname");
-  system("docker rm $cname");
+  system("docker stop $containerName");
+  system("docker rm $containerName");
 }
 
 1;

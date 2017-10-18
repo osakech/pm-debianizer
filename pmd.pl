@@ -11,38 +11,27 @@ use lib "$FindBin::Bin/lib";
 
 use Pmdeb::BashScriptGenerator;
 use Pmdeb::Util;
+use Pmdeb::DockerCommandExecutor;
 
+use constant CONTAINER_NAME => 'pmdeb-cont';
+use constant IMAGE_NAME => 'pmdeb-cont_image';
+use constant BUILD_SCRIPT_PATH => 'buildscript.sh';
 
-our ($opt_m, $opt_x);
-getopts('xm:,');
+our ($opt_m, $opt_x, $opt_t);
+getopts('xm:t:');
 
-my $script = Pmdeb::BashScriptGenerator::getScriptContents($opt_m);
-
-open(my $fh, ">", "buildscript.sh") or die "Can't open > output.txt: $!";
-print $fh $script;
+open(my $fh, ">", BUILD_SCRIPT_PATH) or die "Can't open > BUILD_SCRIPT_PATH: $!";
+print $fh Pmdeb::BashScriptGenerator::getScriptContents($opt_m);
 close $fh;
 
-my $containerName = "pmdeb-cont";
+Pmdeb::Util::destroyAllPreviousContainers(CONTAINER_NAME);
+Pmdeb::Util::destroyAllPreviousImages(IMAGE_NAME) if($opt_x);
 
-Pmdeb::Util::destroyAllPreviousContainers($containerName);
-Pmdeb::Util::destroyAllPreviousImages($containerName) if($opt_x);
-
-my $bCont = "docker build -t $containerName\_image -f Dockerfile .";
-say "command -> ".$bCont;
-system($bCont);
-say "finished building image";
-
-
-my $cCont = "docker create --name $containerName $containerName\_image .";
-say "command -> ".$cCont;
-system($cCont);
-say "created docker container";
-
+Pmdeb::DockerCommandExecutor::build( IMAGE_NAME, $opt_t );
+Pmdeb::DockerCommandExecutor::create( CONTAINER_NAME, IMAGE_NAME );
 
 Pmdeb::Util::deletePreviousDebs($opt_m);
-my $copCont = "docker cp $containerName:/workdir ./$opt_m";
-say "command -> ".$copCont;
-system($copCont);
 
-say "finished";
+Pmdeb::DockerCommandExecutor::cp( CONTAINER_NAME, $opt_m );
+
 exit;

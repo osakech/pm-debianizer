@@ -1,4 +1,5 @@
-FROM ubuntu
+ARG image
+FROM ${image}
 
 WORKDIR /workdir
 
