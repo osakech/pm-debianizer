@@ -1,3 +1,15 @@
+# @Author: Alexandros Kechagias <osakech>
+# @Date:   11-10-2017
+# @Email:  osakech@gmail.com
+# @Project: pm-debianizer
+# @Filename: BashScriptGenerator.pm
+# @Last modified by:   osakech
+# @Last modified time: 31-10-2017
+# @License: GPLv3
+# @Copyright: Copyright 2017 Alexandros Kechagias
+
+
+
 package Pmdeb::BashScriptGenerator;
 
 use strict;
