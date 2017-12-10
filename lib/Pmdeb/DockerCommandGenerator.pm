@@ -3,8 +3,8 @@
 # @Email:  osakech@gmail.com
 # @Project: pm-debianizer
 # @Filename: DockerCommandExecutor.pm
-# @Last modified by:   osakech
-# @Last modified time: 31-10-2017
+# @Last modified by:   alexandros
+# @Last modified time: 29-11-2017
 # @License: GPLv3
 # @Copyright: Copyright 2017 Alexandros Kechagias
 
@@ -15,6 +15,8 @@ use strict;
 use warnings;
 use Carp;
 use feature 'say';
+use File::Spec;
+use Cwd 'realpath';
 
 sub build {
   my ( $imageName, $targetPlatform ) = @_;
@@ -33,12 +35,13 @@ sub create {
 }
 
 sub cp {
-  my ( $containerName, $moduleName, $targetPlatform ) = @_;
+  my ( $containerName, $moduleName, $targetPlatform, $outputDirectory ) = @_;
   croak "docker cp argument container name is missing" unless $containerName;
   croak "docker cp argument module name is missing" unless $moduleName;
   croak "docker cp argument target platform is missing"  unless $targetPlatform;
 
-  return "docker cp $containerName:/workdir ./$moduleName\_$targetPlatform";
+  my $rpath = realpath(File::Spec->catfile($outputDirectory // ".","$moduleName\_$targetPlatform"));
+  return "docker cp $containerName:/workdir $rpath";
 }
 
 sub removeImage {

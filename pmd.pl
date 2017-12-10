@@ -1,16 +1,15 @@
+#!/usr/bin/perl
 # @Author: Alexandros Kechagias <osakech>
 # @Date:   31-10-2017
 # @Email:  osakech@gmail.com
 # @Project: pm-debianizer
 # @Filename: pmd.pl
-# @Last modified by:   osakech
-# @Last modified time: 31-10-2017
+# @Last modified by:   alexandros
+# @Last modified time: 29-11-2017
 # @License: GPLv3
 # @Copyright: Copyright 2017 Alexandros Kechagias
 
-
-
-#!/usr/bin/perl
+return 1 if caller();
 
 use strict;
 use warnings;
@@ -29,8 +28,8 @@ use constant CONTAINER_NAME => 'pmdeb-cont';
 use constant IMAGE_NAME => 'pmdeb-cont_image';
 use constant BUILD_SCRIPT_PATH => 'buildscript.sh';
 
-our ($opt_m, $opt_x, $opt_t);
-getopts('xm:t:');
+our ($opt_m, $opt_x, $opt_t, $opt_o);
+getopts('xm:t:o:');
 
 open(my $fh, ">", BUILD_SCRIPT_PATH) or die "Can't open > BUILD_SCRIPT_PATH: $!";
 print $fh Pmdeb::BashScriptGenerator::getScriptContents($opt_m);
@@ -52,9 +51,9 @@ say "docker create command -> ".$createCommand;
 system($createCommand);
 say "finished creating container";
 
-Pmdeb::Util::deletePreviousDebs($opt_m, $opt_t);
+Pmdeb::Util::removePreviousDirectory($opt_m, $opt_t, $opt_o);
 
-my $copyCommand = Pmdeb::DockerCommandGenerator::cp( CONTAINER_NAME, $opt_m, $opt_t );
+my $copyCommand = Pmdeb::DockerCommandGenerator::cp( CONTAINER_NAME, $opt_m, $opt_t, $opt_o );
 say "docker copy command -> ".$copyCommand;
 system($copyCommand);
 say "finished copying workdir out of the container";

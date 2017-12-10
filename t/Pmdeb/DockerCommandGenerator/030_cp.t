@@ -3,24 +3,37 @@
 # @Email:  osakech@gmail.com
 # @Project: pm-debianizer
 # @Filename: 030_cp.t
-# @Last modified by:   osakech
-# @Last modified time: 31-10-2017
+# @Last modified by:   alexandros
+# @Last modified time: 10-12-2017
 # @License: GPLv3
 # @Copyright: Copyright 2017 Alexandros Kechagias
 #!/usr/bin/perl
 
 use strict;
 use warnings;
-use Test::More tests=>4;
+use Test::More tests=>5;
 use Test::Fatal;
 use FindBin;
+use Cwd 'realpath';
+use File::Spec;
+
 
 use lib "$FindBin::Bin/../../../lib";
 use Pmdeb::DockerCommandGenerator;
 
 my $gotCommand = Pmdeb::DockerCommandGenerator::cp('container','module','platform');
-my $expectedCommand = 'docker cp container:/workdir ./module_platform';
+my $rpath = realpath(File::Spec->catfile('.' , 'module_platform'));
+my $expectedCommand = "docker cp container:/workdir $rpath";
 is($gotCommand,$expectedCommand,"cp command looks good");
+
+my $tmpdir = File::Spec->tmpdir();
+my $gotCommandWithOdir = Pmdeb::DockerCommandGenerator::cp('container','module','platform',$tmpdir);
+my $rpathWithOdir = realpath(File::Spec->catfile($tmpdir,'module_platform'));
+my $expectedCommandWithOdir = "docker cp container:/workdir $rpathWithOdir";
+is($gotCommandWithOdir,$expectedCommandWithOdir,"cp command looks good with custom outputdir");
+
+
+
 
 like(
   exception{ Pmdeb::DockerCommandGenerator::cp('','b','c') },
