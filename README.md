@@ -24,7 +24,10 @@ Delete previous images
 Note: previous containers are deleted by default
 
 ### -t
-The target platform you want to your package to be build inside.
+The target platform you want to your package to be build inside
+
+### -o
+Specifies the export directory. Default is your current directory
 
 Note: This argument is passed directly to the [FROM statement of our Dockerfile](https://docs.docker.com/engine/reference/builder/#from). For a list of possible repositories you can visit [Docker Hub](https://hub.docker.com/). Keep in mind that the tool is designed to work with debian based distributions.
 
