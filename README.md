@@ -1,7 +1,7 @@
 # pm-debianizer
 **This tool is still in early alpha**
 
-Creates a Debian package for Ubuntu from a CPAN module. Support for more  Debian platforms coming soon.
+Creates a Debian package a Debian distribution of your choice from a CPAN module.
 
 ## Prerequisites
 * Docker
@@ -26,10 +26,10 @@ Note: previous containers are deleted by default
 ### -t
 The target platform you want to your package to be build inside
 
+Note: This argument is passed directly to the [FROM statement of our Dockerfile](https://docs.docker.com/engine/reference/builder/#from). For a list of possible repositories you can visit [Docker Hub](https://hub.docker.com/). Keep in mind that the tool is designed to work with debian based distributions.
+
 ### -o
 Specifies the export directory. Default is your current directory
-
-Note: This argument is passed directly to the [FROM statement of our Dockerfile](https://docs.docker.com/engine/reference/builder/#from). For a list of possible repositories you can visit [Docker Hub](https://hub.docker.com/). Keep in mind that the tool is designed to work with debian based distributions.
 
 
 ## USAGE:
