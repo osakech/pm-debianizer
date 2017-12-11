@@ -1,7 +1,7 @@
 # pm-debianizer
 **This tool is still in early alpha**
 
-Creates a Debian package a Debian distribution of your choice from a CPAN module.
+Creates a Debian package in a Debian distribution of your choice from a CPAN module.
 
 ## Prerequisites
 * Docker
