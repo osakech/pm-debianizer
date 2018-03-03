@@ -5,7 +5,7 @@
 # @Project: pm-debianizer
 # @Filename: pmd.pl
 # @Last modified by:   alexandros
-# @Last modified time: 29-11-2017
+# @Last modified time: 12-12-2017
 # @License: GPLv3
 # @Copyright: Copyright 2017 Alexandros Kechagias
 
@@ -46,7 +46,8 @@ say "docker build command -> ".$buildCommand;
 system($buildCommand);
 say "finished building image";
 
-my $createCommand = Pmdeb::DockerCommandGenerator::create( CONTAINER_NAME, IMAGE_NAME );
+my $params = Pmdeb::DockerCommandGenerator::getEnvParams();
+my $createCommand = Pmdeb::DockerCommandGenerator::create( CONTAINER_NAME, IMAGE_NAME, $params );
 say "docker create command -> ".$createCommand;
 system($createCommand);
 say "finished creating container";

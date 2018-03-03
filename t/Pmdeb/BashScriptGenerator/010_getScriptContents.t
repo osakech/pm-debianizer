@@ -3,8 +3,8 @@
 # @Email:  osakech@gmail.com
 # @Project: pm-debianizer
 # @Filename: 010_getScriptContents.t
-# @Last modified by:   osakech
-# @Last modified time: 31-10-2017
+# @Last modified by:   alexandros
+# @Last modified time: 22-12-2017
 # @License: GPLv3
 # @Copyright: Copyright 2017 Alexandros Kechagias
 
@@ -26,14 +26,4 @@ my $expected = qq{
   DEB_BUILD_OPTIONS=nocheck cpan2deb Some::Package::Name --core-ok
   };
 
-is($got,$expected,"generated script looks good")
-
-# sub getScriptContents {
-#   my ($pkgname) = @_;
-#
-#   return qq{
-#   #!/usr/bin/sh
-#   git config --global user.email osakech\@gmail.com
-#   DEB_BUILD_OPTIONS=nocheck cpan2deb $pkgname --core-ok
-#   };
-# }
+is($got,$expected,"generated script looks good");

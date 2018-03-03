@@ -4,7 +4,7 @@
 # @Project: pm-debianizer
 # @Filename: DockerCommandExecutor.pm
 # @Last modified by:   alexandros
-# @Last modified time: 29-11-2017
+# @Last modified time: 22-12-2017
 # @License: GPLv3
 # @Copyright: Copyright 2017 Alexandros Kechagias
 
@@ -27,11 +27,11 @@ sub build {
 }
 
 sub create {
-  my ( $containerName, $imageName ) = @_;
+  my ( $containerName, $imageName, $envParams ) = @_;
   croak "docker create argument container name is missing" unless $containerName;
   croak "docker create argument image name is missing"  unless $imageName;
 
-  return "docker create --name $containerName $imageName .";
+  return "docker create ".($envParams || '')." --name $containerName $imageName .";
 }
 
 sub cp {
@@ -63,6 +63,16 @@ sub removeContainer {
   croak "docker rm argument container name is missing" unless $containerName;
 
   return "docker rm $containerName";
+}
+
+sub getEnvParams {
+  my $envParams;
+  for my $env_key (qw(DEBFULLNAME DEBEMAIL EMAIL)) {
+	    if ($ENV{$env_key}) {
+        $envParams .= "--env $env_key=\"$ENV{$env_key}\" "
+      }
+	}
+  return $envParams;
 }
 
 1;

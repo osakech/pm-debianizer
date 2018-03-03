@@ -3,8 +3,8 @@
 # @Email:  osakech@gmail.com
 # @Project: pm-debianizer
 # @Filename: BashScriptGenerator.pm
-# @Last modified by:   osakech
-# @Last modified time: 31-10-2017
+# @Last modified by:   alexandros
+# @Last modified time: 13-12-2017
 # @License: GPLv3
 # @Copyright: Copyright 2017 Alexandros Kechagias
 
@@ -22,6 +22,7 @@ sub getScriptContents {
   return qq{
   #!/usr/bin/sh
   git config --global user.email osakech\@gmail.com
+
   DEB_BUILD_OPTIONS=nocheck cpan2deb $pkgname --core-ok
   };
 }
